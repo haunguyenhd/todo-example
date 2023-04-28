@@ -55,8 +55,11 @@ const TicketComponent: React.FC<TicketComponentProp> = ({
       )}
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {listTaskFilter &&
-          listTaskFilter.map((task) => (
-            <div style={{ display: "flex", width: "100%", margin: "5px 0" }}>
+          listTaskFilter.map((task, index) => (
+            <div
+              key={index}
+              style={{ display: "flex", width: "100%", margin: "5px 0" }}
+            >
               <Checkbox
                 style={{ width: "100%", margin: 0 }}
                 checked={task.state}
