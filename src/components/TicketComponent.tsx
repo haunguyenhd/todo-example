@@ -1,6 +1,6 @@
-import { Card, Checkbox, Form, FormInstance, Input } from "antd";
-import React, { Ref, useRef } from "react";
-import { PlusOutlined } from "@ant-design/icons";
+import { Card, Checkbox, Form, Input } from "antd";
+import React from "react";
+import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { useGlobalContext } from "./context/GlobalContext";
 
 type TicketComponentProp = {
@@ -17,7 +17,7 @@ const TicketComponent: React.FC<TicketComponentProp> = ({
   const listTaskFilter = listTask?.filter((task) => task.ticketId === ticketId);
   return (
     <Card
-      title={title ?? "Ticket"}
+      title={title ? `Ticket : ${title}` : "Ticket"}
       extra={
         <PlusOutlined
           onClick={() => {
@@ -56,33 +56,51 @@ const TicketComponent: React.FC<TicketComponentProp> = ({
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {listTaskFilter &&
           listTaskFilter.map((task) => (
-            <Checkbox
-              style={{ width: "100%", margin: 0 }}
-              checked={task.state}
-              onChange={(e) => {
-                let cloneArray = listTask;
+            <div style={{ display: "flex", width: "100%", margin: "5px 0" }}>
+              <Checkbox
+                style={{ width: "100%", margin: 0 }}
+                checked={task.state}
+                onChange={(e) => {
+                  let cloneArray = listTask;
 
-                const indexElement = cloneArray?.findIndex(
-                  (t) => t.task === task.task
-                );
+                  const indexElement = cloneArray?.findIndex(
+                    (t) => t.task === task.task
+                  );
 
-                if (!cloneArray || indexElement === undefined) {
-                  return;
-                }
-                cloneArray[indexElement].state = e.target.checked;
+                  if (!cloneArray || indexElement === undefined) {
+                    return;
+                  }
+                  cloneArray[indexElement].state = e.target.checked;
 
-                setListTask([...cloneArray]);
-              }}
-            >
-              <span
-                style={{
-                  textDecorationLine:
-                    task.state === false ? "none" : "line-through",
+                  setListTask([...cloneArray]);
                 }}
               >
-                {task.task}
-              </span>
-            </Checkbox>
+                <span
+                  style={{
+                    textDecorationLine:
+                      task.state === false ? "none" : "line-through",
+                  }}
+                >
+                  {task.task}
+                </span>
+              </Checkbox>
+              <CloseOutlined
+                onClick={() => {
+                  let cloneArray = listTask;
+
+                  const indexElement = cloneArray?.findIndex(
+                    (t) => t.task === task.task
+                  );
+
+                  if (!cloneArray || indexElement === undefined) {
+                    return;
+                  }
+                  cloneArray.splice(indexElement, 1);
+
+                  setListTask([...cloneArray]);
+                }}
+              />
+            </div>
           ))}
       </div>
     </Card>

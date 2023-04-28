@@ -40,7 +40,7 @@ const DashBoardComponent = () => {
       </div>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {tickets?.map((ticket, index) => (
-          <TicketComponent key={index} ticketId={ticket} />
+          <TicketComponent key={index} title={ticket} ticketId={ticket} />
         ))}
       </div>
     </div>
